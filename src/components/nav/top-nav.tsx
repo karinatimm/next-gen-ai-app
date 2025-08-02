@@ -10,6 +10,7 @@ import {
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { ModeToggle } from "./mode-toggle";
 
 const TopNav = () => {
   const { isSignedIn, user } = useUser();
@@ -51,6 +52,9 @@ const TopNav = () => {
         <SignedIn>
           <UserButton />
         </SignedIn>
+        <div className="ml-2">
+          <ModeToggle />
+        </div>
       </div>
     </nav>
   );
