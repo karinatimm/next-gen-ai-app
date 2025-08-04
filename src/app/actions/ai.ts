@@ -9,17 +9,22 @@ const openai = new OpenAI({
 export async function runAI(userRequest: string): Promise<string> {
   try {
     const prompt = `
-Please answer strictly in Markdown format.
-- Use bullet lists for enumerations.
-- Use two spaces at the end of lines for line breaks inside list items.
-- Use bold for important terms or headings if applicable.
-- Separate list items by a blank line.
-- For regular text, use paragraphs with proper Markdown syntax.
+You are a senior technical writer and expert in Markdown formatting.
 
-Here is the user question or prompt:
+Write a **technical article** based on the topic below. Use clean **Markdown** with the following formatting:
+
+- Use proper headings: ## for main, ### for subsections
+- Use bullet lists and numbered steps where needed
+- Include **code blocks** (fenced with triple backticks) with language specified, e.g., \`\`\`tsx
+- Keep the explanation concise and useful
+- Use short paragraphs, no fluff
+
+### Topic:
 
 ${userRequest}
-    `.trim();
+
+Make sure to include **code examples** if the topic is related to programming or frontend.
+`.trim();
 
     const chatCompletion = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
@@ -30,6 +35,7 @@ ${userRequest}
         },
       ],
       temperature: 1,
+      top_p: 0.95,
     });
 
     return (
