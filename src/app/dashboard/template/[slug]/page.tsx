@@ -1,14 +1,23 @@
 "use client";
 
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
+
 import { Template } from "../../../../utils/types";
 import { Button } from "@/components/ui/button";
 import template from "@/utils/template";
 import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Loader2Icon } from "lucide-react";
+import { ArrowLeft, Copy, Loader2Icon } from "lucide-react";
+import Link from "next/link";
 import { runAI } from "@/app/actions/ai";
+import "@toast-ui/editor/dist/toastui-editor.css";
+import { Editor } from "@toast-ui/react-editor";
+import toast from "react-hot-toast";
+// import { saveQuery } from "@/actions/ai";
+// import { useUser } from "@clerk/nextjs";
+// import { Template } from "@/utils/types";
+// import { useUsage } from "@/context/usage";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -19,16 +28,26 @@ const Page = ({ params }: Props) => {
   const resolvedParams = React.use(params);
   const slug = resolvedParams.slug;
 
+  // States
+  const [query, setQuery] = useState("");
+  const [content, setContent] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<Error | null>(null);
+
+  // ref
+  const editorRef = useRef<Editor | null>(null);
+
   // Find template matching slug
   const currentTemplate = template.find(
     (item) => item.slug === slug
   ) as Template;
 
-  // States
-  const [query, setQuery] = React.useState("");
-  const [content, setContent] = React.useState("");
-  const [loading, setLoading] = React.useState(false);
-  const [error, setError] = React.useState<Error | null>(null);
+  useEffect(() => {
+    const editorInstance = editorRef.current?.getInstance();
+    if (editorInstance) {
+      editorInstance.setMarkdown(content);
+    }
+  }, [content]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -45,12 +64,38 @@ const Page = ({ params }: Props) => {
     }
   };
 
-  if (!currentTemplate) {
-    return <div>Template not found</div>;
-  }
+  const handleCopy = async () => {
+    const editorInstance = editorRef.current?.getInstance();
+    if (!editorInstance) {
+      toast.error("Editor not ready.");
+      return;
+    }
+
+    const copiedContent = editorInstance.getMarkdown(); // getHTML()
+
+    try {
+      await navigator.clipboard.writeText(copiedContent);
+      toast.success("Content copied to clipboard.");
+    } catch (err: unknown) {
+      console.error("Clipboard copy error:", err); // Логируем ошибку для отладки
+      toast.error("An error occurred. Please try again.");
+    }
+  };
 
   return (
     <div>
+      <div className="flex justify-between mx-5 my-3">
+        <Link href="/dashboard">
+          <Button>
+            <ArrowLeft /> <span className="ml-2 cursor-pointer">Back</span>
+          </Button>
+        </Link>
+
+        <Button onClick={handleCopy}>
+          <Copy /> <span className="ml-2 cursor-pointer">Copy</span>
+        </Button>
+      </div>
+
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5 px-5">
         <div className="col-span-1 bg-slate-100 dark:bg-slate-900 rounded-md border p-5">
           <div className="flex flex-col gap-3">
@@ -59,7 +104,6 @@ const Page = ({ params }: Props) => {
               alt={currentTemplate.name}
               width={50}
               height={50}
-              style={{ width: "auto", height: 50 }}
             />
             <h2 className="font-medium text-lg">{currentTemplate.name}</h2>
             <p className="text-gray-500">{currentTemplate.desc}</p>
@@ -97,9 +141,20 @@ const Page = ({ params }: Props) => {
           </form>
           {error && <p className="text-red-500 mt-2">{error.message}</p>}
         </div>
+        <div className="col-span-2">
+          <Editor
+            ref={editorRef}
+            initialValue="Generated content will appear here."
+            previewStyle="vertical"
+            height="600px"
+            initialEditType="wysiwyg"
+            useCommandShortcut={true}
+            // onChange={() =>
+            //   setContent(editorRef.current.getInstance().getMarkdown())
+            // }
+          />
+        </div>
       </div>
-
-      <div className="col-span-2 whitespace-pre-wrap mt-5">{content}</div>
     </div>
   );
 };
