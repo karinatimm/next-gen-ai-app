@@ -11,6 +11,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { ModeToggle } from "./mode-toggle";
+import { Toaster } from "react-hot-toast";
 
 const TopNav = () => {
   const { isSignedIn, user } = useUser();
@@ -28,6 +29,7 @@ const TopNav = () => {
 
   return (
     <nav className="flex justify-between items-center p-2 shadow">
+      <Toaster />
       <Link href="/">
         <Image
           src="/logo.svg"
