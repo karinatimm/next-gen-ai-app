@@ -14,8 +14,8 @@ import { runAI } from "@/app/actions/ai";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import { Editor } from "@toast-ui/react-editor";
 import toast from "react-hot-toast";
-// import { saveQuery } from "@/actions/ai";
-// import { useUser } from "@clerk/nextjs";
+import { saveQuery } from "../../../actions/ai";
+import { useUser } from "@clerk/nextjs";
 // import { Template } from "@/utils/types";
 // import { useUsage } from "@/context/usage";
 
@@ -42,6 +42,10 @@ const Page = ({ params }: Props) => {
     (item) => item.slug === slug
   ) as Template;
 
+  const { user } = useUser();
+  // console.log("useUser() in slug page", user);
+  const email = user?.primaryEmailAddress?.emailAddress || "";
+
   useEffect(() => {
     const editorInstance = editorRef.current?.getInstance();
     if (editorInstance) {
@@ -57,6 +61,8 @@ const Page = ({ params }: Props) => {
     try {
       const data = await runAI(currentTemplate.aiPrompt + query);
       setContent(data);
+      // save to db
+      await saveQuery(currentTemplate, email, query, data);
     } catch (err) {
       setError(err as Error);
     } finally {
@@ -139,6 +145,7 @@ const Page = ({ params }: Props) => {
               Generate content
             </Button>
           </form>
+
           {error && <p className="text-red-500 mt-2">{error.message}</p>}
         </div>
         <div className="col-span-2">
