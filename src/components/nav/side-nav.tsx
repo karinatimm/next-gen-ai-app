@@ -8,6 +8,8 @@ import {
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import Usage from "@/components/nav/usage";
+import SignUpModal from "../modal/sign-up-modal";
 
 const SideNav = () => {
   const currentActivePath = usePathname();
@@ -38,25 +40,30 @@ const SideNav = () => {
   return (
     <div className="flex flex-col h-full">
       <ul className="flex-1 space-y-2">
-        {menu.map((item) => (
-          <div
-            key={item.path}
-            className={`flex m-2 mr-4 p-2 rounded-lg cursor-pointer border ${
+        {menu.map((item, index) => (
+          <li
+            key={index}
+            className={`${
               currentActivePath === item.path
                 ? "border-primary text-primary"
                 : "hover:border-primary hover:text-primary"
-            }`}
+            } flex m-2 mr-2 p-2 rounded-lg cursor-pointer border`}
           >
-            <Link href={item.path}>
-              <div className="flex justify-center items-center md:justify-start w-full">
+            <div className="flex justify-center items-center md:justify-start w-full">
+              <Link href={item.path} className="flex">
                 <item.icon />
                 {/* use hidden class to show only icon in small screen */}
-                <span className="ml-2 hidden md:inline">{item.name}</span>
-              </div>
-            </Link>
-          </div>
+                <span className="ml-2 md:inline">{item.name}</span>
+              </Link>
+            </div>
+          </li>
         ))}
       </ul>
+
+      <div className="pb-20 mt-auto">
+        <Usage />
+        <SignUpModal />
+      </div>
     </div>
   );
 };
