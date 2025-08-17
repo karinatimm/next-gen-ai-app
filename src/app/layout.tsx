@@ -5,6 +5,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import TopNav from "@/components/nav/top-nav";
 import { ThemeProvider } from "../../context/themeProvider";
+import { UsageProvider } from "../../context/usageProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -38,10 +39,12 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <header>
-              <TopNav />
-            </header>
-            <main>{children}</main>
+            <UsageProvider>
+              <header>
+                <TopNav />
+              </header>
+              <main>{children}</main>
+            </UsageProvider>
           </ThemeProvider>
         </body>
       </html>
