@@ -10,23 +10,7 @@ const openai = new OpenAI({
 
 const runAI = async (userRequest: string): Promise<string> => {
   try {
-    const prompt = `
-You are a senior technical writer and expert in Markdown formatting.
-
-Write a **technical article** based on the topic below. Use clean **Markdown** with the following formatting:
-
-- Use proper headings: ## for main, ### for subsections
-- Use bullet lists and numbered steps where needed
-- Include **code blocks** (fenced with triple backticks) with language specified, e.g., \`\`\`tsx
-- Keep the explanation concise and useful
-- Use short paragraphs, no fluff
-
-### Topic:
-
-${userRequest}
-
-Make sure to include **code examples** if the topic is related to programming or frontend.
-`.trim();
+    const prompt = `${userRequest}`.trim();
 
     const chatCompletion = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
@@ -126,4 +110,52 @@ const getQueries = async (email: string, page: number, pageSize: number) => {
   }
 };
 
-export { runAI, saveQuery, getQueries };
+// Функция считает общее количество слов, написанных пользователем
+// с указанным email,
+// в поле content всех записей модели Query, созданных в текущем месяце
+// и году.
+const usageCount = async (email: string) => {
+  await db();
+
+  const currentDate = new Date();
+  const currentYear = currentDate.getFullYear();
+  const currentMonth = currentDate.getMonth() + 1;
+
+  // Агрегация в MongoDB: поиск и подсчёт слов
+  const result = await Query.aggregate([
+    {
+      // Шаг 1: фильтруем записи по email и дате (текущий год и месяц)
+      $match: {
+        email: email,
+        $expr: {
+          $and: [
+            { $eq: [{ $year: "$createdAt" }, currentYear] },
+            { $eq: [{ $month: "$createdAt" }, currentMonth] },
+          ],
+        },
+      },
+    },
+    {
+      // Шаг 2: проецируем (вытаскиваем) количество слов в каждой записи
+      $project: {
+        wordCount: {
+          $size: {
+            $split: [{ $trim: { input: "$content" } }, " "],
+          },
+        },
+      },
+    },
+    {
+      // Шаг 3: группируем все записи (в одну группу) и суммируем все слова
+      $group: {
+        _id: null, // означает, что все документы складываются в одну группу
+        totalWords: { $sum: "$wordCount" }, // суммируем все значения wordCount
+      },
+    },
+  ]);
+
+  // Возвращаем общее количество слов, либо 0, если записей нет
+  return result.length > 0 ? result[0].totalWords : 0;
+};
+
+export { runAI, saveQuery, getQueries, usageCount };
