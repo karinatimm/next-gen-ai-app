@@ -5,7 +5,8 @@ const template = [
     desc: "An AI tool that generate blog ideas based on the topic you provide",
     category: "Blog",
     icon: "https://cdn-icons-png.flaticon.com/128/4186/4186534.png",
-    aiPrompt: "Give me 5 blog topic ideas in bullet points for: ",
+    aiPrompt:
+      "You are an expert blog strategist.\n\nGenerate 5 unique blog topic ideas in bullet points for the following niche or topic. Use Markdown formatting with appropriate headings (##, ###), paragraphs, and lists if needed. Be creative and ensure topics are relevant, engaging, and useful.\n\n### Topic:\n",
     slug: "ai-blog-title",
     form: [
       {
@@ -22,7 +23,8 @@ const template = [
     category: "blog",
     icon: "https://cdn-icons-png.flaticon.com/128/4905/4905454.png",
     slug: "ai-blog-content",
-    aiPrompt: "Generate Blog Content for the title: ",
+    aiPrompt:
+      "You are a professional blog writer and SEO expert.\n\nWrite a high-quality, engaging, and SEO-optimized blog post based on the following title. Structure it using Markdown with proper headings, bullet points, and examples if necessary.\n\n### Title:\n ",
     form: [
       {
         label: "Enter your blog title",
@@ -38,7 +40,8 @@ const template = [
     category: "sms",
     icon: "https://cdn-icons-png.flaticon.com/128/890/890260.png",
     slug: "ai-message",
-    aiPrompt: "How to reply to this message: ",
+    aiPrompt:
+      "You are an expert in communication.\n\nGenerate a short, smart, and friendly reply to the following message. Make it sound natural and appropriate for a conversation.\n\n### Message:\n",
     form: [
       {
         label: "Enter the message you want to reply to",
@@ -54,7 +57,8 @@ const template = [
     category: "email",
     icon: "https://cdn-icons-png.flaticon.com/128/944/944948.png",
     slug: "ai-email",
-    aiPrompt: "How to reply to this email: ",
+    aiPrompt:
+      "You are a professional email assistant.\n\nWrite a polite, clear, and professional reply to the following email. Structure the response in Markdown.\n\n### Email:\n",
     form: [
       {
         label: "Enter your youtube video topic keyowords",
@@ -71,7 +75,7 @@ const template = [
     icon: "https://cdn-icons-png.flaticon.com/128/706/706164.png",
     slug: "ai-food",
     aiPrompt:
-      "Research and help me understand the health benefits of this food: ",
+      "You are a health expert and nutrition researcher.\n\nExplain the health benefits, nutritional value, and interesting facts about the following food item. Format the response using Markdown.\n\n### Food Item:\n",
     form: [
       {
         label: "Enter the food name",
@@ -88,7 +92,8 @@ const template = [
     icon: "https://cdn-icons-png.flaticon.com/128/1830/1830839.png",
     slug: "ai-chef",
 
-    aiPrompt: "Generate a easy and healthy recipe for: ",
+    aiPrompt:
+      "You are a professional chef and nutritionist.\n\nCreate a simple, healthy, and delicious recipe for the following dish or ingredients. Format it in Markdown with sections for Ingredients, Instructions, and Tips.\n\n### Dish or Ingredients:\n",
 
     form: [
       {
@@ -107,7 +112,7 @@ const template = [
     category: "Rewriting Tool",
     slug: "ai-rewrite-article",
     aiPrompt:
-      "Rewrite give article without any Plagiarism in rich text editor format",
+      "You are a professional content writer and rewriter.\n\nRewrite the following article or blog post to make it 100% unique, plagiarism-free, and natural-sounding. Ensure the meaning stays the same and the text can bypass AI detectors. Format the output in **rich text Markdown**.Use Markdown formatting with appropriate headings (##, ###), paragraphs, and lists if needed.\n\n### Original Content:\n",
     form: [
       {
         label:
@@ -125,7 +130,7 @@ const template = [
     category: "writing",
     slug: "ai-word-counter",
     aiPrompt:
-      "Count the number of words in the given text and show me how many words repeat how many times",
+      "You are a text analysis assistant.\n\nAnalyze the following text and provide:\n1. Total word count\n2. Total character count\n3. Number of unique words\n4. Top 10 most frequent words with their count\n\nFormat the output in Markdown.\n\n### Text:\n",
     form: [
       {
         label: "Enter the text you want to count the words for",
@@ -142,7 +147,7 @@ const template = [
     category: "blog",
     slug: "ai-emoji-to-text",
     aiPrompt:
-      "Add Emoji to outline text depends on outline and rewrite it in rich text editor format",
+      "You are a creative writer assistant.\n\nEnhance the following text by adding contextually appropriate emojis. Ensure readability, avoid clutter, and place emojis where they naturally add emotion or clarity. Format the output in rich text Markdown.\n\n### Text:\n",
     form: [
       {
         label: "Enter your text to add emojis",
@@ -160,7 +165,7 @@ const template = [
 
     slug: "ai-instagram-post-generator",
     aiPrompt:
-      "Generate 3 Instagram post depends on a given keywords and give output in  in rich text editor format",
+      "You are a social media expert.\n\nGenerate 3 catchy Instagram captions for the given keywords. Make them engaging, audience-friendly, and optimized for social media. Format each caption as a bullet point in Markdown.\n\n### Keywords:\n",
     form: [
       {
         label: "Enter Keywords for your post",
@@ -178,7 +183,7 @@ const template = [
 
     slug: "ai-instagram-hash-tag-generator",
     aiPrompt:
-      "Generate 15 Instagram hash tag depends on a given keywords and give output in  in rich text editor format",
+      "You are an Instagram hashtag strategist.\n\nGenerate 15 relevant, trending, and high-visibility hashtags for the following keywords. Format the output as a hashtag list in Markdown.\n\n### Keywords:\n",
     form: [
       {
         label: "Enter Keywords for your instagram hastag",
@@ -196,7 +201,7 @@ const template = [
 
     slug: "ai-instagram-post-idea-generator",
     aiPrompt:
-      "Generate 5-10 Instagram idea depends on niche with latest trend and give output in  in rich text editor format",
+      "You are a content strategist for Instagram.\n\nGenerate 5–10 creative and trending ideas for Instagram posts or reels based on the given niche or keywords. Format the output in a numbered list using Markdown.\n\n### Niche / Keywords:\n",
     form: [
       {
         label: "Enter Keywords / Niche for your instagram idea",
@@ -214,7 +219,7 @@ const template = [
 
     slug: "ai-english-grammer-checker",
     aiPrompt:
-      "Rewrite the inputText by correcting the grammer and give output in  in rich text editor format",
+      "You are a professional English proofreader.\n\nCorrect all grammatical, spelling, and punctuation errors in the following text without changing its original meaning. Use natural phrasing. Format the corrected text in Markdown.\n\n### Original Text:\n",
     form: [
       {
         label: "Enter text to correct the grammer",
@@ -232,7 +237,7 @@ const template = [
 
     slug: "ai-write-code",
     aiPrompt:
-      "Depends on user codeDescription write a code and give output in  in rich text editor format in code block ",
+      "You are an expert software developer.\n\nWrite code according to the description provided. Include helpful comments and best practices. Format the output in a Markdown code block.\n\n### Code Requirements:\n",
     form: [
       {
         label:
@@ -251,7 +256,7 @@ const template = [
 
     slug: "ai-explain-code",
     aiPrompt:
-      "Depends on user codeDescription explain code line by line and give output in  in rich text editor format in code block ",
+      "You are a senior software engineer.\n\nExplain what the following code does, line by line. Include details on logic, function, and flow. Format the explanation using Markdown and code blocks.\n\n### Code:\n",
     form: [
       {
         label: "Enter code which you want to understand",
@@ -269,7 +274,7 @@ const template = [
 
     slug: "ai-code-bug-detector",
     aiPrompt:
-      "Depends on user codeInput find bug in code and give solution and give output in  in rich text editor format in code block ",
+      "You are a debugging assistant.\n\nAnalyze the code for bugs, logical errors, or bad practices. Suggest a fix and provide the corrected version of the code. Format the explanation and solution using Markdown and code blocks.\n\n### Code:\n",
     form: [
       {
         label: "Enter code which you want to test bug",
@@ -287,7 +292,7 @@ const template = [
 
     slug: "ai-tagline-generator",
     aiPrompt:
-      "Depends on user productName and outline generate catchy 5-10 tagline for the business product and give output  in rich text editor format ",
+      "You are a brand messaging expert.\n\nGenerate 5–10 catchy and creative taglines for the product described below. Use the product name and marketing outline for context. Format each tagline as a bullet point in Markdown.\n\n### Product Name:\n{{productName}}\n\n### Description:\n",
     form: [
       {
         label: "Product/Brand Name",
@@ -311,7 +316,7 @@ const template = [
 
     slug: "ai-product-description",
     aiPrompt:
-      "Depends on user productName and description generate small description for product for e-commer business give output  in rich text editor format  ",
+      "You are an e-commerce copywriter.\n\nCreate a short, compelling, and SEO-friendly product description using the provided product name and details. Format the output in Markdown.\n\n### Product Name:\n{{productName}}\n\n### Product Details:\n",
     form: [
       {
         label: "Product Name",
