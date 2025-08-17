@@ -12,10 +12,12 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { ModeToggle } from "./mode-toggle";
 import { Toaster } from "react-hot-toast";
+import { useUsage } from "../../../context/usageProvider";
 
 const TopNav = () => {
   const { isSignedIn, user } = useUser();
   const [isMounted, setIsMounted] = useState(false);
+  const { subscribed } = useUsage();
 
   // console.log({ isSignedIn, user });
 
@@ -39,6 +41,13 @@ const TopNav = () => {
           className="cursor-pointer"
         />
       </Link>
+
+      {!subscribed && (
+        <Link href="/membership">🔥 Join free or $9.99/month</Link>
+      )}
+
+      {/* <Link href="/gen-ai">Gen AI</Link> */}
+
       <div className="flex items-center gap-4">
         {isSignedIn && isMounted && user?.fullName && (
           <Link href="/dashboard">{user.fullName}&apos;s Dashboard</Link>
