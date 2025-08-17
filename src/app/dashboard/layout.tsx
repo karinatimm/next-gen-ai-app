@@ -1,3 +1,4 @@
+import MobileNav from "@/components/nav/mobile-nav";
 import SideNav from "@/components/nav/side-nav";
 
 const DashboardLayout = ({
@@ -6,13 +7,19 @@ const DashboardLayout = ({
   children: React.ReactNode;
 }>) => {
   return (
-    <div className="grid grid-cols-4 gap-4">
-      <div className="col-span-1">
+    <div className="flex h-screen">
+      <div className="hidden md:block w-1/4 h-full">
         <SideNav />
       </div>
-      <div className="col-span-3">{children}</div>
+
+      <div className="flex flex-col md:flex-row flex-1 w-full">
+        <div className="md:hidden w-full">
+          <MobileNav />
+        </div>
+
+        <div className="flex-1 overflow-y-auto">{children}</div>
+      </div>
     </div>
   );
 };
-
 export default DashboardLayout;
