@@ -16,8 +16,7 @@ import { Editor } from "@toast-ui/react-editor";
 import toast from "react-hot-toast";
 import { saveQuery } from "../../../actions/ai";
 import { useUser } from "@clerk/nextjs";
-// import { Template } from "@/utils/types";
-// import { useUsage } from "@/context/usage";
+import { useUsage } from "../../../../../context/usageProvider";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -42,6 +41,8 @@ const Page = ({ params }: Props) => {
     (item) => item.slug === slug
   ) as Template;
 
+  // const { fetchUsage, subscribed, count } = useUsage(); // context
+  const { fetchUsage, count } = useUsage(); // context
   const { user } = useUser();
   // console.log("useUser() in slug page", user);
   const email = user?.primaryEmailAddress?.emailAddress || "";
@@ -63,6 +64,7 @@ const Page = ({ params }: Props) => {
       setContent(data);
       // save to db
       await saveQuery(currentTemplate, email, query, data);
+      fetchUsage();
     } catch (err) {
       setError(err as Error);
     } finally {
