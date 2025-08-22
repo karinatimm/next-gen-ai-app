@@ -1,76 +1,83 @@
 "use client";
 
-import { ReactElement, useState } from "react";
-import { runAI } from "./actions/ai";
-import { Button } from "../components/ui/button";
-import { Input } from "../components/ui/input";
-import { Card, CardHeader, CardContent } from "../components/ui/card";
-import ReactMarkdown from "react-markdown";
+import { Button } from "@/components/ui/button";
+import SignInModal from "@/components/modal/sign-in-modal";
+import { useDashboardRedirect } from "@/hooks/useDashboardRedirect";
+import PromoCard from "@/components/cards/promo-card";
 
-function MarkdownWithLineBreaks({ content }: { content: string }) {
-  // Заменяем одиночные переводы строк внутри текста на двойные пробелы + перенос строки,
-  // чтобы ReactMarkdown отображал переносы
-  const modifiedContent = content.replace(/([^\n])\n([^\n])/g, "$1  \n$2");
-  return <ReactMarkdown>{modifiedContent}</ReactMarkdown>;
-}
+const Home = () => {
+  const handleClick = useDashboardRedirect();
 
-const Page = (): ReactElement => {
-  const [response, setResponse] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string>("");
-  const [query, setQuery] = useState("");
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setError("");
-    setResponse("");
-    try {
-      const data = await runAI(query);
-      setResponse(data);
-    } catch (err) {
-      console.error(err);
-      if (err instanceof Error) {
-        setError(err.message);
-      } else {
-        setError("Unknown error");
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
+  const promoItems = [
+    {
+      title: "Extensive Template Library",
+      description:
+        "Choose from a wide range of templates for your content needs",
+    },
+    {
+      title: "SEO Optimized Content",
+      description: "Get SEO optimized content for your blog or website",
+    },
+    {
+      title: "Social Media Posts",
+      description: "Generate content for your social media posts",
+    },
+    {
+      title: "AI Content Generator",
+      description:
+        "Generate AI content for your blog, website, or social media with a single click",
+    },
+  ];
 
   return (
-    <div className="m-5">
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <Input
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder="Ask anything"
-        />
-        <Button type="submit" disabled={loading}>
-          {loading ? "Loading..." : "Generate with AI"}
-        </Button>
-      </form>
+    <>
+      <div
+        className="relative bg-cover bg-center"
+        style={{ backgroundImage: 'url("/background.png")', height: "50vh" }}
+      >
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#010818] z-0"></div>
 
-      {(loading || response) && (
-        <Card className="mt-6">
-          <CardHeader>AI Response will appear here..</CardHeader>
-          <CardContent>
-            {loading ? (
-              <div>Loading...</div>
-            ) : (
-              <MarkdownWithLineBreaks content={response} />
-            )}
-          </CardContent>
-        </Card>
-      )}
+        <div className="relative z-10 flex items-center justify-center h-full">
+          <div className="text-center">
+            <SignInModal />
+            <h1 className="text-7xl font-bold bg-gradient-to-r from-green-400 via-blue-500 to-purple-600 bg-clip-text text-transparent mb-4">
+              AI Content Generator
+            </h1>
+            <p className="text-white mb-5">
+              Generate AI content for your blog, website, or social media with a
+              single click and more
+            </p>
 
-      {error && (
-        <div className="mt-4 text-sm text-red-500 font-medium">{error}</div>
-      )}
-    </div>
+            <Button onClick={handleClick} variant="outline">
+              Get started
+            </Button>
+          </div>
+        </div>
+      </div>
+
+      <div className="py-10 px-4">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+            {promoItems.map((item, index) => (
+              <PromoCard
+                key={index}
+                title={item.title}
+                description={item.description}
+                onClick={handleClick} // updated to use client-side redirect
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <footer className="py-4 text-center border-t-2">
+        <p className="text-sm text-gray-500">
+          &copy; {new Date().getFullYear()} AI Content Generator. All rights
+          reserved.
+        </p>
+      </footer>
+    </>
   );
 };
 
-export default Page;
+export default Home;
