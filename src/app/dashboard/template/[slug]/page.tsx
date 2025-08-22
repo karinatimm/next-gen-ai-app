@@ -41,8 +41,7 @@ const Page = ({ params }: Props) => {
     (item) => item.slug === slug
   ) as Template;
 
-  // const { fetchUsage, subscribed, count } = useUsage(); // context
-  const { fetchUsage, count } = useUsage(); // context
+  const { fetchUsage, subscribed, count } = useUsage(); // context
   const { user } = useUser();
   // console.log("useUser() in slug page", user);
   const email = user?.primaryEmailAddress?.emailAddress || "";
@@ -142,9 +141,20 @@ const Page = ({ params }: Props) => {
               </div>
             ))}
 
-            <Button type="submit" className="w-full py-6" disabled={loading}>
+            <Button
+              type="submit"
+              className="w-full py-6"
+              disabled={
+                loading ||
+                (!subscribed &&
+                  count >= Number(process.env.NEXT_PUBLIC_FREE_TIER_USAGE))
+              }
+            >
               {loading && <Loader2Icon className="animate-spin mr-2" />}
-              Generate content
+              {subscribed ||
+              count < Number(process.env.NEXT_PUBLIC_FREE_TIER_USAGE)
+                ? "Generate content"
+                : "Subscribe to generate content"}
             </Button>
           </form>
 
@@ -158,9 +168,9 @@ const Page = ({ params }: Props) => {
             height="600px"
             initialEditType="wysiwyg"
             useCommandShortcut={true}
-            // onChange={() =>
-            //   setContent(editorRef.current.getInstance().getMarkdown())
-            // }
+            onChange={() =>
+              setContent(editorRef.current?.getInstance().getMarkdown())
+            }
           />
         </div>
       </div>
