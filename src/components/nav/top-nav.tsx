@@ -1,30 +1,19 @@
 "use client";
-import {
-  SignInButton,
-  SignUpButton,
-  SignedIn,
-  SignedOut,
-  UserButton,
-  useUser,
-} from "@clerk/nextjs";
+
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { ModeToggle } from "./mode-toggle";
 import { Toaster } from "react-hot-toast";
-import { useUsage } from "../../../context/usageProvider";
+import { useUser, useClerk } from "@clerk/nextjs";
+import { useDashboardRedirect } from "@/hooks/useDashboardRedirect";
 
 const TopNav = () => {
   const { isSignedIn, user } = useUser();
+  const { signOut } = useClerk(); // добавляем signOut
   const [isMounted, setIsMounted] = useState(false);
-  const { subscribed } = useUsage();
+  const handleClick = useDashboardRedirect(); // наш хук
 
-  // console.log({ isSignedIn, user });
-
-  // useEffect не срабатывает при серверном рендере — только в браузере, после
-  // того как компонент отрисовался.
-  // Как только компонент "смонтировался" в браузере, useEffect срабатывает и
-  // вызывает setIsMounted(true).
   useEffect(() => {
     setIsMounted(true);
   }, []);
@@ -42,27 +31,30 @@ const TopNav = () => {
         />
       </Link>
 
-      {!subscribed && (
-        <Link href="/membership">🔥 Join free or $9.99/month</Link>
-      )}
-
-      {/* <Link href="/gen-ai">Gen AI</Link> */}
+      <Link href="/gen-ai">Gen AI</Link>
 
       <div className="flex items-center gap-4">
         {isSignedIn && isMounted && user?.fullName && (
-          <Link href="/dashboard">{user.fullName}&apos;s Dashboard</Link>
-        )}
-        <SignedOut>
-          <SignInButton />
-          <SignUpButton>
-            <button className="bg-[#6c47ff] text-ceramic-white rounded-full font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 cursor-pointer">
-              Sign Up
+          <>
+            <Link href="/dashboard">{user.fullName}&apos;s Dashboard</Link>
+            <button
+              onClick={() => signOut()}
+              className="bg-red-600 text-white rounded-full px-4 py-2"
+            >
+              Sign Out
             </button>
-          </SignUpButton>
-        </SignedOut>
-        <SignedIn>
-          <UserButton />
-        </SignedIn>
+          </>
+        )}
+
+        {!isSignedIn && isMounted && (
+          <button
+            onClick={handleClick}
+            className="bg-[#6c47ff] text-white rounded-full font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 cursor-pointer"
+          >
+            Sign In / Sign Up
+          </button>
+        )}
+
         <div className="ml-2">
           <ModeToggle />
         </div>
