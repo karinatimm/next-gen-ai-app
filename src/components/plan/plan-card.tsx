@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import Image from "next/image";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import toast from "react-hot-toast";
 import { SignInButton, useUser } from "@clerk/nextjs";
 import { createCheckoutSession } from "../../app/actions/stripeService";
