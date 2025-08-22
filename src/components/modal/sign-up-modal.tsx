@@ -24,32 +24,34 @@ export default function SignUpModal() {
         <DialogHeader>
           <DialogTitle>🚀 Unlock unlimited AI-Powered content!</DialogTitle>
           <br />
-          <DialogDescription>
-            <p>
-              🎉 Congrats! You have generated 10,000 words with our AI tool.
-              That is amazing!{" "}
-            </p>
-            <p>
-              🔒 Ready to take your content creation to the next level? Upgrade
-              to a paid plan and enjoy!
-            </p>
-            <ul className="m-5">
-              <li>✨ Unlimited word generation</li>
-              <li>🧠 Advanced AI features</li>
-              <li>⚡ Faster processing times</li>
-              <li>🛠️ Priority customer support</li>
-            </ul>
-            <p>
-              💡 Do not let your creativity hit a wall. Upgrade now and keep the
-              ideas flowing!
-            </p>
 
-            <div className="m-5 text-center">
-              <Link href="/membership">
-                <Button>Join Membership</Button>
-              </Link>
-            </div>
+          <DialogDescription>
+            🎉 Congrats! You have generated 10,000 words with our AI tool. That
+            is amazing!
           </DialogDescription>
+
+          <DialogDescription>
+            🔒 Ready to take your content creation to the next level? Upgrade to
+            a paid plan and enjoy!
+          </DialogDescription>
+
+          <ul className="m-5 list-disc list-inside">
+            <li>✨ Unlimited word generation</li>
+            <li>🧠 Advanced AI features</li>
+            <li>⚡ Faster processing times</li>
+            <li>🛠️ Priority customer support</li>
+          </ul>
+
+          <DialogDescription>
+            💡 Do not let your creativity hit a wall. Upgrade now and keep the
+            ideas flowing!
+          </DialogDescription>
+
+          <div className="m-5 text-center">
+            <Link href="/membership">
+              <Button>Join Membership</Button>
+            </Link>
+          </div>
         </DialogHeader>
       </DialogContent>
     </Dialog>
