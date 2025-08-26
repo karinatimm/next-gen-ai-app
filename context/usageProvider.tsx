@@ -22,31 +22,27 @@ interface UsageContextType {
 const UsageContext = createContext<UsageContextType | null>(null);
 
 export const UsageProvider = ({ children }: { children: React.ReactNode }) => {
-  const [count, setCount] = useState(0); // счетчик использованных кредитов
-  const [openModal, setOpenModal] = useState(false); // модальное окно превышения лимита
-  const [subscribed, setSubscribed] = useState(false); // статус подписки
-  const [loading, setLoading] = useState(true); // статус загрузки данных
+  const [count, setCount] = useState(0);
+  const [openModal, setOpenModal] = useState(false);
+  const [subscribed, setSubscribed] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-  // Получаем пользователя из Clerk
   const { user, isLoaded } = useUser();
-  const email = user?.primaryEmailAddress?.emailAddress; // email пользователя
+  const email = user?.primaryEmailAddress?.emailAddress;
 
-  // Функция для получения данных об использовании и подписке
   const fetchUsage = useCallback(async () => {
-    if (!email) return; // если email нет, ничего не делаем
+    if (!email) return;
 
-    setLoading(true); // включаем индикатор загрузки
+    setLoading(true);
     try {
-      // Параллельно получаем количество использованных кредитов и статус подписки
       const [usedCredits, subscriptionStatus] = await Promise.all([
-        usageCount(email), // сколько кредитов уже использовано
-        checkUserSusbcription(), // проверка подписки
+        usageCount(email),
+        checkUserSusbcription(),
       ]);
 
-      setCount(usedCredits); // обновляем счетчик кредитов
-      setSubscribed(subscriptionStatus?.ok || false); // обновляем статус подписки
+      setCount(usedCredits);
+      setSubscribed(subscriptionStatus?.ok || false);
 
-      // Если нет подписки и превышен лимит бесплатного плана — показываем модалку
       if (
         !subscriptionStatus?.ok &&
         usedCredits > Number(process.env.NEXT_PUBLIC_FREE_TIER_USAGE)
@@ -56,11 +52,10 @@ export const UsageProvider = ({ children }: { children: React.ReactNode }) => {
         setOpenModal(false);
       }
     } finally {
-      setLoading(false); // отключаем индикатор загрузки
+      setLoading(false);
     }
-  }, [email]); // функция зависит только от email
+  }, [email]);
 
-  // Ждем полной загрузки пользователя и его email, после чего загружаем данные
   useEffect(() => {
     if (isLoaded && email) fetchUsage();
   }, [isLoaded, email, fetchUsage]);
@@ -81,7 +76,6 @@ export const UsageProvider = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-// Хук для удобного использования контекста
 export const useUsage = () => {
   const context = useContext(UsageContext);
   if (!context) {
