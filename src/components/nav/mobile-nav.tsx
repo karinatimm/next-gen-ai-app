@@ -1,9 +1,8 @@
-import React from "react";
 import { Menu } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
 import SideNav from "@/components/nav/side-nav";
 
-export default function MobileNav() {
+const MobileNav = () => {
   return (
     <div>
       <div className="px-4 mb-2 bg-slate-50 dark:bg-slate-900">
@@ -20,4 +19,6 @@ export default function MobileNav() {
       </div>
     </div>
   );
-}
+};
+
+export default MobileNav;
