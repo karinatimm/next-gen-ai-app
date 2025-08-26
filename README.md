@@ -14,10 +14,18 @@ This project was designed to explore how modern AI tools can be integrated into 
 ### 🧠 AI & App Capabilities
 
 - **OpenAI Integration** - generate text, ideas, and creative outputs based on custom prompts.
-- **Dynamic AI Templates** - build custom content flows (text, docs, summaries, etc.).
+- **Dynamic AI Templates** - build custom content flows (text, docs, summaries, etc.) with an integrated Markdown/WYSIWYG editor for editing and copying generated content.
 - **Usage Tracking System** - credits, progress bars, and limits per user.
+- **User History** - track and view previously generated AI content for reference or reuse.
+- **Dashboard Search** - easily find any AI tool, from Blog Ideas to Instagram Hash Tag Generator.
 
 > ⚠️ **Note:** You can test Stripe subscriptions using card number `4242 4242 4242 4242` with any future expiry/CVC.
+
+---
+
+### 📝 Demo / Guest Access
+
+- **Try AI Without Signup** – even without registering, you can click the **Gen AI** button and type a request.
 
 ---
 
