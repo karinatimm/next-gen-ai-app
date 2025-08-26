@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { getQueries } from "../../actions/ai";
 import { useUser } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
@@ -19,11 +19,9 @@ export default function Page() {
     totalPages: number;
   }
 
-  // hooks
   const { user } = useUser();
   const email = user?.primaryEmailAddress?.emailAddress || "";
 
-  // fetchQueries
   const fetchQueries = useCallback(async () => {
     setLoading(true);
     try {
@@ -43,7 +41,6 @@ export default function Page() {
     }
   }, [email, page, queriesPerPage]);
 
-  // loadMore
   const loadMore = useCallback(async () => {
     setLoading(true);
     try {
