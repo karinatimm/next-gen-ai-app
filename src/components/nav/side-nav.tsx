@@ -52,7 +52,6 @@ const SideNav = () => {
             <div className="flex justify-center items-center md:justify-start w-full">
               <Link href={item.path} className="flex">
                 <item.icon />
-                {/* use hidden class to show only icon in small screen */}
                 <span className="ml-2 md:inline">{item.name}</span>
               </Link>
             </div>
