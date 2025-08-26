@@ -8,7 +8,6 @@ import { createCheckoutSession } from "../../app/actions/stripeService";
 import { useRouter } from "next/navigation";
 import { Loader2Icon } from "lucide-react";
 
-// PlanCard - это карточка подписки/плана.
 const PlanCard = ({ name, image }: { name: string; image: string }) => {
   const [loading, setLoading] = useState(false);
   const { isSignedIn, isLoaded } = useUser();
@@ -16,7 +15,6 @@ const PlanCard = ({ name, image }: { name: string; image: string }) => {
 
   const handleCheckout = async () => {
     if (name === "Free") {
-      // Переходит на страницу url, как <Link>
       router.push("/dashboard");
       return;
     }
@@ -46,7 +44,6 @@ const PlanCard = ({ name, image }: { name: string; image: string }) => {
     }
   };
 
-  //  Рендер кнопки в зависимости от состояния
   const renderButton = () => {
     if (loading) {
       return (
