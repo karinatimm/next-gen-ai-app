@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react";
 import { useUsage } from "../../../context/usageProvider";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
 
 export default function Usage() {
   const { count, subscribed, loading } = useUsage();
@@ -14,7 +13,7 @@ export default function Usage() {
       const target = subscribed ? 100 : Math.min((count / credits) * 100, 100);
       setProgress(target);
     }
-  }, [count, subscribed, loading]);
+  }, [count, subscribed, loading, credits]);
 
   return (
     <div className="m-2">
@@ -37,11 +36,18 @@ export default function Usage() {
         </h2>
       </div>
 
-      <Link href="/membership">
-        <Button className="w-full my-3" variant="secondary">
-          Upgrade
-        </Button>
-      </Link>
+      <Button
+        className="w-full my-3"
+        variant="secondary"
+        disabled={subscribed}
+        onClick={() => {
+          if (!subscribed) {
+            window.location.href = "/membership";
+          }
+        }}
+      >
+        Upgrade
+      </Button>
     </div>
   );
 }
