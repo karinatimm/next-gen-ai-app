@@ -1,8 +1,9 @@
 "use client";
+
 import { ChevronRight } from "lucide-react";
 import { useDashboardRedirect } from "@/hooks/useDashboardRedirect";
 
-export default function SignInModal() {
+const SignInModal = () => {
   const handleClick = useDashboardRedirect();
 
   return (
@@ -16,4 +17,6 @@ export default function SignInModal() {
       </span>
     </div>
   );
-}
+};
+
+export default SignInModal;
