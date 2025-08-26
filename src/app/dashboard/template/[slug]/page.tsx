@@ -23,27 +23,23 @@ type Props = {
 };
 
 const Page = ({ params }: Props) => {
-  // unwrap params using React.use()
   const resolvedParams = React.use(params);
   const slug = resolvedParams.slug;
 
-  // States
   const [query, setQuery] = useState("");
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
 
-  // ref
   const editorRef = useRef<Editor | null>(null);
 
-  // Find template matching slug
   const currentTemplate = template.find(
     (item) => item.slug === slug
   ) as Template;
 
-  const { fetchUsage, subscribed, count } = useUsage(); // context
+  const { fetchUsage, subscribed, count } = useUsage();
   const { user } = useUser();
-  // console.log("useUser() in slug page", user);
+
   const email = user?.primaryEmailAddress?.emailAddress || "";
 
   useEffect(() => {
@@ -61,7 +57,7 @@ const Page = ({ params }: Props) => {
     try {
       const data = await runAI(currentTemplate.aiPrompt + query);
       setContent(data);
-      // save to db
+
       await saveQuery(currentTemplate, email, query, data);
       fetchUsage();
     } catch (err) {
@@ -78,13 +74,13 @@ const Page = ({ params }: Props) => {
       return;
     }
 
-    const copiedContent = editorInstance.getMarkdown(); // getHTML()
+    const copiedContent = editorInstance.getMarkdown();
 
     try {
       await navigator.clipboard.writeText(copiedContent);
       toast.success("Content copied to clipboard.");
     } catch (err: unknown) {
-      console.error("Clipboard copy error:", err); // Логируем ошибку для отладки
+      console.error("Clipboard copy error:", err);
       toast.error("An error occurred. Please try again.");
     }
   };
