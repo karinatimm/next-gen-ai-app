@@ -4,8 +4,8 @@ import Link from "next/link";
 interface PromoCardProps {
   title: string;
   description: string;
-  link?: string; // make optional
-  onClick?: () => void; // optional click handler
+  link?: string;
+  onClick?: () => void;
 }
 
 const PromoCard: React.FC<PromoCardProps> = ({
@@ -25,7 +25,6 @@ const PromoCard: React.FC<PromoCardProps> = ({
     </div>
   );
 
-  // If link is provided and no onClick, wrap in Link
   if (link && !onClick) {
     return <Link href={link}>{content}</Link>;
   }
