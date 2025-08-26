@@ -2,14 +2,19 @@
 import React from "react";
 import { createCustomerPortalSession } from "../../actions/stripeService";
 import { Button } from "@/components/ui/button";
+import { useUsage } from "context/usageProvider";
 
 const Billing = () => {
+  const { subscribed } = useUsage();
+
   const handleClick = async () => {
-    // sends a request to your backend/Stripe and returns a URL for
-    // the Stripe Customer Portal
+    if (!subscribed) {
+      alert("You need a subscription to access the billing portal");
+      return;
+    }
+
     const response = await createCustomerPortalSession();
-    // redirects the browser to that URL.
-    // This is how the user is taken to Stripe to manage their subscription.
+
     window.location.href = response as string;
   };
 
