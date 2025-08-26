@@ -8,8 +8,6 @@ import { Card, CardHeader, CardContent } from "../../components/ui/card";
 import ReactMarkdown from "react-markdown";
 
 function MarkdownWithLineBreaks({ content }: { content: string }) {
-  // Заменяем одиночные переводы строк внутри текста на двойные пробелы + перенос строки,
-  // чтобы ReactMarkdown отображал переносы
   const modifiedContent = content.replace(/([^\n])\n([^\n])/g, "$1  \n$2");
   return <ReactMarkdown>{modifiedContent}</ReactMarkdown>;
 }
