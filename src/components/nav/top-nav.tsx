@@ -5,14 +5,16 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { ModeToggle } from "./mode-toggle";
 import { Toaster } from "react-hot-toast";
-import { useUser, useClerk } from "@clerk/nextjs";
+import { useClerk, useUser } from "@clerk/nextjs";
 import { useDashboardRedirect } from "@/hooks/useDashboardRedirect";
+import { useUsage } from "context/usageProvider";
 
 const TopNav = () => {
-  const { isSignedIn, user } = useUser();
-  const { signOut } = useClerk(); // добавляем signOut
+  const { signOut } = useClerk();
+  const { isSignedIn } = useUser();
+  const { subscribed } = useUsage();
   const [isMounted, setIsMounted] = useState(false);
-  const handleClick = useDashboardRedirect(); // наш хук
+  const handleClick = useDashboardRedirect();
 
   useEffect(() => {
     setIsMounted(true);
@@ -31,28 +33,34 @@ const TopNav = () => {
         />
       </Link>
 
+      {!subscribed && (
+        <Link href="/membership">🔥 Join free or $9.99/month</Link>
+      )}
       <Link href="/gen-ai">Gen AI</Link>
 
       <div className="flex items-center gap-4">
-        {isSignedIn && isMounted && user?.fullName && (
+        {isMounted && (
           <>
-            <Link href="/dashboard">{user.fullName}&apos;s Dashboard</Link>
-            <button
-              onClick={() => signOut()}
-              className="bg-red-600 text-white rounded-full px-4 py-2"
-            >
-              Sign Out
-            </button>
+            {isSignedIn ? (
+              <button
+                onClick={() =>
+                  signOut(() => {
+                    window.location.href = "/";
+                  })
+                }
+                className="bg-[#6c47ff] text-white rounded-full font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 cursor-pointer"
+              >
+                Sign Out
+              </button>
+            ) : (
+              <button
+                onClick={handleClick}
+                className="bg-[#6c47ff] text-white rounded-full font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 cursor-pointer"
+              >
+                Sign In / Sign Up
+              </button>
+            )}
           </>
-        )}
-
-        {!isSignedIn && isMounted && (
-          <button
-            onClick={handleClick}
-            className="bg-[#6c47ff] text-white rounded-full font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 cursor-pointer"
-          >
-            Sign In / Sign Up
-          </button>
         )}
 
         <div className="ml-2">
