@@ -40,7 +40,7 @@ This project was designed to explore how modern AI tools can be integrated into 
 
 ### ⚙️ Architecture & Design
 
-- **Next.js 14 + React + TypeScript** - modern, full-stack web app framework.
+- **Next.js + React + TypeScript** - modern, full-stack web app framework.
 - **Server Actions** - efficient, secure data handling.
 - **React Context** - global state management with ease.
 - **Reusable Components** - scalable, modular UI building blocks.
