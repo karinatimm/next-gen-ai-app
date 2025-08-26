@@ -1,4 +1,3 @@
-// utils/template.ts
 const template = [
   {
     name: "Blog Ideas",
