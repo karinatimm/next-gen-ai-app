@@ -63,7 +63,7 @@ const Home = () => {
                 key={index}
                 title={item.title}
                 description={item.description}
-                onClick={handleClick} // updated to use client-side redirect
+                onClick={handleClick}
               />
             ))}
           </div>
