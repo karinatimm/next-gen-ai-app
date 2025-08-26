@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+
 import { useUsage } from "../../../context/usageProvider";
 import {
   Dialog,
@@ -10,7 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
-export default function SignUpModal() {
+const SignUpModal = () => {
   const { openModal, setOpenModal } = useUsage();
 
   return (
@@ -56,4 +57,6 @@ export default function SignUpModal() {
       </DialogContent>
     </Dialog>
   );
-}
+};
+
+export default SignUpModal;
