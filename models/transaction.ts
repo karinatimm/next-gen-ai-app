@@ -1,9 +1,6 @@
 import mongoose from "mongoose";
 const { Schema } = mongoose;
 
-// будешь использовать Transaction в webhook-обработчике от Stripe,
-// чтобы сохранять оплату
-
 const TransactionSchema = new Schema(
   {
     sessionId: String,
@@ -19,7 +16,6 @@ const TransactionSchema = new Schema(
   { timestamps: true }
 );
 
-// существует ли уже модель Transaction в Mongoose.
 const Transaction =
   mongoose.models.Transaction ||
   mongoose.model("Transaction", TransactionSchema);
