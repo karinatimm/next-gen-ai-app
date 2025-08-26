@@ -5,7 +5,13 @@ It combines **OpenAI**, **Stripe subscriptions**, **Clerk authentication**, and 
 
 This project was designed to explore how modern AI tools can be integrated into real-world SaaS products - from **content generation** to **subscription monetization** - while keeping everything scalable, responsive, and developer-friendly.
 
-> ⚠️ **Note:** This is a portfolio/learning project created to explore modern AI integrations in web apps.
+## 🚨 Notes
+
+> ⚠️ 📝 This is a portfolio/learning project created to explore modern AI integrations in web apps.
+
+> ⚠️ 💳 The app uses **Stripe in test mode**. 🚫 Do **not** use your real credit card details.
+
+> ⚠️ ✅ You can test Stripe subscriptions using card number `4242 4242 4242 4242` with any future expiry/CVC and card holder.
 
 ---
 
@@ -18,8 +24,6 @@ This project was designed to explore how modern AI tools can be integrated into 
 - **Usage Tracking System** - credits, progress bars, and limits per user.
 - **User History** - track and view previously generated AI content for reference or reuse.
 - **Dashboard Search** - easily find any AI tool, from Blog Ideas to Instagram Hash Tag Generator.
-
-> ⚠️ **Note:** You can test Stripe subscriptions using card number `4242 4242 4242 4242` with any future expiry/CVC.
 
 ---
 
